@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace,指定要实现的接口 全限定名 -->
+<mapper namespace="com.baizhi.dao.ChaptorDAO">
+	<insert id="save" parameterType="Chaptor">
+		insert into f_chaptor(id,title,size,urlpath,time,aid)values(#{id},#{title},#{size},#{urlpath},#{time},#{aid})
+	</insert>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace,指定要实现的接口 全限定名 -->
+<mapper namespace="com.baizhi.dao.UserDAO">
+	<insert id="save" parameterType="User">
+		insert into f_user(username,date)
+				values(#{username},#{date})
+	</insert>
+<!--登录-->
+	<select id="queryByNameOrPassword" resultType="User">
+		select id,username,password,dharmaName,sex,headpic,status,date from f_user
+		<where>
+			<if test="username!=null">
+				username=#{username}
+			</if>
+			<if test="password!=null">
+				and password=#{password}
+			</if>
+		</where>
+	</select>
+<!--用户活跃度-->
+	<select id="queryAll" resultType="java.lang.Integer">
+		select datediff(now(),date) as datenum from f_user
+	</select>
+
+	<select id="showAll" resultType="User">
+		select id,username,password,date from f_user
+	</select>
+
+	<select id="queryById" parameterType="int" resultType="User">
+		select id,username,password,date from f_user where id=#{id}
+	</select>
+
+	<update id="update" parameterType="User">
+		update f_user set username=#{username},password=#{password},dharmaName=#{dharmaName},sex=#{sex},headpic=#{headpic},status=#{status},date=#{date},province=#{province},city=#{city} where id=#{id}
+	</update>
+
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace,指定要实现的接口 全限定名 -->
+<mapper namespace="com.baizhi.dao.MenuDAO">
+	<resultMap id="all" type="Menu">
+		<id column="f1id" property="id"/>
+		<result column="f1title" property="title"/>
+		<result column="f1iconCls" property="iconCls"/>
+		<result column="f1parent_id" property="parent_id"/>
+		<result column="f1url" property="url"/>
+		<collection property="childern" ofType="Menu">
+			<id column="f2id" property="id"/>
+			<result column="f2title" property="title"/>
+			<result column="f2iconCls" property="iconCls"/>
+			<result column="f2parent_id" property="parent_id"/>
+			<result column="f2url" property="url"/>
+
+		</collection>
+
+	</resultMap>
+	<select id="queryAll" resultMap="all">
+		select f1.id f1id,f1.title f1title,f1.iconCls f1iconCls,f1.parent_id f1parent_id,f1.url f1url, 
+			f2.id f2id,f2.title f2title,f2.iconCls f2iconCls,f2.parent_id f2parent_id,f2.url f2url
+		from f_menu f1
+		left join f_menu f2
+		on f1.id=f2.parent_id
+		where f1.parent_id=0
+	</select>
+</mapper>

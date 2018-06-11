@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace,指定要实现的接口 全限定名 -->
+<mapper namespace="com.baizhi.dao.AdminDAO">
+	<insert id="save" parameterType="Admin">
+		insert into f_admin(id,phoneNum,password)values(#{id},#{phoneNum},#{password})
+	</insert>
+
+	<select id="queryByPhoneNum" parameterType="java.lang.String" resultType="Admin">
+		select id,phoneNum,password from f_admin where phoneNum=#{phoneNum}
+	</select>
+
+	<resultMap id="all" type="Admin">
+		<id column="id" property="id"/>
+		<result column="phoneNum" property="phoneNum"/>
+		<result column="password" property="password"/>
+		<collection property="members" ofType="Member">
+			<id column="farmington" property="farmington"/>
+			<result column="nickname" property="nickname"/>
+			<result column="gender" property="gender"/>
+			<result column="photo" property="photo"/>
+			<result column="location" property="location"/>
+			<result column="province" property="province"/>
+			<result column="city" property="city"/>
+			<result column="description" property="description"/>
+			<result column="phone" property="phone"/>
+		</collection>
+
+	</resultMap>
+	<select id="queryById" parameterType="java.lang.String" resultMap="all">
+		select id,farmington,nickname,gender,photo,location,province,city,description,phone,uid
+		from f_admin right join f_member
+		on id=uid
+		where id=#{id}
+	</select>
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace,指定要实现的接口 全限定名 -->
+<mapper namespace="com.baizhi.dao.BannerDAO">
+	<resultMap id="all" type="Banner">
+		<id column="id" property="id"/>
+		<result column="title" property="title"/>
+		<result column="imgpath" property="imgpath"/>
+		<result column="des" property="des"/>
+		<result column="status" property="status"/>
+		<result column="date" property="date"/>
+	</resultMap>
+	<select id="queryAll" resultMap="all">
+			select id,title,imgpath,des,status,date from banner limit #{begin},#{end}
+
+	</select>
+	<insert id="save" parameterType="Banner">
+		insert into banner(title,imgpath,des,status,date)values(#{title},#{imgpath},#{des},#{status},#{date})
+	</insert>
+
+	<delete id="delete" parameterType="int">
+		delete from banner where id=#{id}
+	</delete>
+
+	<update id="update" parameterType="Banner">
+		update banner <set>
+			<if test="title!=null">
+				title=#{title}
+			</if>
+			<if test="status!=null">
+				,status=#{status}
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	<select id="queryById" parameterType="int" resultType="Banner">
+		select id,title,imgpath,des,status,date from banner where id=#{id}
+	</select>
+
+</mapper>

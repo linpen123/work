@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace,指定要实现的接口 全限定名 -->
+<mapper namespace="com.baizhi.dao.AlbumDAO">
+	<insert id="save" parameterType="Album">
+		insert into f_album(title,img,count,score,author,broadCast,publishDate,brief)values(#{title},#{img},#{count},#{score},#{author},#{broadCast},#{publishDate},#{brief})
+	</insert>
+
+	<resultMap id="all" type="Album">
+		<id column="aid" property="id"/>
+		<result column="atitle" property="title"/>
+		<result column="img" property="img"/>
+		<result column="count" property="count"/>
+		<result column="score" property="score"/>
+		<result column="author" property="author"/>
+		<result column="broadCast" property="broadCast"/>
+		<result column="publishDate" property="publishDate"/>
+		<result column="brief" property="brief"/>
+		<collection property="children" ofType="Chaptor">
+			<id column="cid" property="id"/>
+			<result column="ctitle" property="title"/>
+			<result column="size" property="size"/>
+			<result column="urlpath" property="urlpath"/>
+			<result column="time" property="time"/>
+			<result column="aid" property="aid"/>
+		</collection>
+ 	</resultMap>
+
+	<select id="queryAll" resultMap="all">
+		select a.id aid,a.title atitle,a.img,a.count,a.score,a.author,a.broadCast,a.publishDate,a.brief,
+		c.id cid,c.title ctitle,c.size,c.urlpath,c.time,c.aid from f_album a
+		left join f_chaptor c
+		on a.id=c.aid
+	</select>
+
+	<select id="queryById" resultMap="all" parameterType="int">
+		select a.id aid,a.title atitle,a.img,a.count,a.score,a.author,a.broadCast,a.publishDate,a.brief,
+		c.id cid,c.title ctitle,c.size,c.urlpath,c.time,c.aid from f_album a
+		left join f_chaptor c
+		on a.id=c.aid
+		where a.id=#{id}
+	</select>
+</mapper>
